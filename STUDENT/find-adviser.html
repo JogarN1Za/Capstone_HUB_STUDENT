@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find an Adviser | CapstoneHub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+
+  :root {
+    --color-white: #ffffff;
+    --color-offwhite: #f8f9fa;
+    --color-border: #e0e0e0;
+    --color-text-primary: #202124;
+    --color-text-secondary: #5f6368;
+    --color-text-muted: #80868b;
+
+    --blue: #4285F4;
+    --red: #EA4335;
+    --yellow: #FBBC05;
+    --green: #34A853;
+
+    --blue-tint: #e8f0fe;
+    --red-tint: #fce8e6;
+    --yellow-tint: #fef7e0;
+    --green-tint: #e6f4ea;
+
+    --navbar-height: 64px;
+    --sidebar-width: 240px;
+    --radius-sm: 4px;
+    --radius-md: 8px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Roboto', system-ui, -apple-system, sans-serif;
+    color: var(--color-text-primary);
+    background-color: var(--color-white);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  .hidden { display: none !important; }
+
+  .bg-decoration { position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 0; pointer-events: none; }
+  .bg-shape { position: absolute; opacity: 0.05; }
+  .shape-circle { border-radius: 50%; }
+  .shape-square { border-radius: var(--radius-sm); }
+  .shape-1 { width: 220px; height: 220px; background: var(--blue); top: 8%; left: 6%; animation: drift-a 34s ease-in-out infinite; }
+  .shape-2 { width: 160px; height: 160px; background: var(--red); top: 60%; left: 82%; animation: drift-b 28s ease-in-out infinite; }
+  .shape-3 { width: 130px; height: 130px; background: var(--yellow); top: 78%; left: 12%; animation: drift-c 40s ease-in-out infinite; }
+  .shape-4 { width: 190px; height: 190px; background: var(--green); top: 20%; left: 88%; animation: drift-a 32s ease-in-out infinite reverse; }
+  .shape-5 { width: 100px; height: 100px; background: var(--blue); top: 40%; left: 46%; animation: drift-b 45s linear infinite; }
+  @keyframes drift-a { 0% { transform: translate(0,0) rotate(0deg); } 50% { transform: translate(30px,40px) rotate(15deg); } 100% { transform: translate(0,0) rotate(0deg); } }
+  @keyframes drift-b { 0% { transform: translate(0,0) rotate(0deg); } 50% { transform: translate(-35px,25px) rotate(-12deg); } 100% { transform: translate(0,0) rotate(0deg); } }
+  @keyframes drift-c { 0% { transform: translate(0,0) rotate(0deg); } 50% { transform: translate(20px,-30px) rotate(10deg); } 100% { transform: translate(0,0) rotate(0deg); } }
+  @media (prefers-reduced-motion: reduce) { .bg-shape { animation: none !important; } }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-family: inherit; font-size: 14px; font-weight: 500; border-radius: var(--radius-sm); border: 1px solid transparent; cursor: pointer; transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease; }
+  .btn-primary { padding: 10px 18px; background: var(--blue); color: var(--color-white); }
+  .btn-primary:hover { background: #3367d6; }
+  .btn-outline { background: var(--color-white); color: var(--color-text-secondary); border-color: var(--color-border); padding: 7px 12px; font-size: 13px; }
+  .btn-outline:hover { background: var(--color-offwhite); border-color: #c0c0c0; }
+  .btn-solid-blue { background: var(--blue); color: var(--color-white); padding: 9px 12px; font-size: 13px; }
+  .btn-solid-blue:hover { background: #3367d6; }
+  .btn:disabled, .btn.is-disabled { background: var(--color-offwhite); color: var(--color-text-muted); border-color: var(--color-border); cursor: not-allowed; }
+  .btn:disabled:hover, .btn.is-disabled:hover { background: var(--color-offwhite); }
+
+  .dashboard-screen { position: relative; z-index: 1; }
+
+  /* --- Top Navigation Bar --- */
+  .top-navbar { position: fixed; top: 0; left: 0; right: 0; height: var(--navbar-height); background: var(--color-white); border-bottom: 1px solid var(--color-border); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 100; }
+  .navbar-left { display: flex; align-items: center; gap: 10px; min-width: 200px; }
+  .hamburger-btn { display: none; background: none; border: none; cursor: pointer; color: var(--color-text-secondary); width: 36px; height: 36px; border-radius: 50%; align-items: center; justify-content: center; flex-shrink: 0; }
+  .hamburger-btn:hover { background: var(--color-offwhite); }
+  .brand-mark { width: 30px; height: 30px; object-fit: contain; }
+  .brand-name { font-size: 20px; font-weight: 700; letter-spacing: -0.2px; }
+  .navbar-search { flex: 1; display: flex; justify-content: center; }
+  .search-input-wrap { position: relative; width: 100%; max-width: 480px; }
+  .search-input { width: 100%; padding: 9px 14px 9px 38px; font-family: inherit; font-size: 14px; background: var(--color-offwhite); border: 1px solid transparent; border-radius: 20px; outline: none; color: var(--color-text-primary); }
+  .search-input:focus { background: var(--color-white); border-color: var(--color-border); }
+  .search-icon { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--color-text-muted); pointer-events: none; }
+  .navbar-right { display: flex; align-items: center; gap: 18px; min-width: 200px; justify-content: flex-end; }
+  .icon-btn { background: none; border: none; cursor: pointer; color: var(--color-text-secondary); display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; position: relative; }
+  .icon-btn:hover { background: var(--color-offwhite); }
+  .notif-dot { position: absolute; top: 7px; right: 8px; width: 7px; height: 7px; border-radius: 50%; background: var(--red); border: 1.5px solid var(--color-white); }
+  .user-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--blue); color: var(--color-white); font-size: 13px; font-weight: 500; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
+
+  /* --- Sidebar --- */
+  .sidebar { position: fixed; top: var(--navbar-height); left: 0; bottom: 0; width: var(--sidebar-width); background: var(--color-offwhite); border-right: 1px solid var(--color-border); padding: 16px 12px; display: flex; flex-direction: column; justify-content: space-between; z-index: 200; overflow-y: auto; transition: transform 0.25s ease; }
+  .sidebar-overlay { display: none; position: fixed; top: var(--navbar-height); left: 0; right: 0; bottom: 0; background: rgba(32,33,36,0.4); z-index: 150; opacity: 0; transition: opacity 0.25s ease; }
+  .sidebar-overlay.visible { display: block; opacity: 1; }
+  .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+  .sidebar-link { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: var(--radius-sm); color: var(--color-text-secondary); text-decoration: none; font-size: 14px; font-weight: 500; cursor: pointer; transition: background-color 0.15s ease, color 0.15s ease; }
+  .sidebar-link:hover { background: #eef1f4; color: var(--color-text-primary); }
+  .sidebar-link.active { background: var(--blue-tint); color: var(--blue); }
+  .sidebar-icon { width: 18px; height: 18px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+  .sidebar-footer { border-top: 1px solid var(--color-border); padding-top: 12px; }
+
+  /* --- Main Content --- */
+  .main-content { margin-top: var(--navbar-height); margin-left: var(--sidebar-width); padding: 32px 36px 60px; min-height: calc(100vh - var(--navbar-height)); }
+  .breadcrumbs { font-size: 13px; color: var(--color-text-muted); margin-bottom: 6px; }
+  .breadcrumbs .current { color: var(--color-text-secondary); }
+  .breadcrumbs a { color: var(--color-text-muted); text-decoration: none; }
+  .breadcrumbs a:hover { color: var(--blue); text-decoration: underline; }
+  .welcome-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 22px; flex-wrap: wrap; gap: 12px; }
+  .welcome-title { font-size: 24px; font-weight: 700; letter-spacing: -0.3px; }
+  .welcome-sub { font-size: 13.5px; color: var(--color-text-secondary); margin-top: 4px; }
+
+  /* --- My Requests panel --- */
+  .panel { background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 20px 22px; margin-bottom: 22px; }
+  .panel-title { font-size: 14px; font-weight: 700; margin-bottom: 12px; }
+  .request-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--color-border); flex-wrap: wrap; }
+  .request-row:last-child { border-bottom: none; }
+  .request-info { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .request-name { font-size: 13.5px; font-weight: 500; }
+  .request-meta { font-size: 12px; color: var(--color-text-muted); }
+  .request-status-pill { padding: 4px 11px; border-radius: 20px; font-size: 12px; font-weight: 500; white-space: nowrap; }
+  .status-pending  { background: var(--yellow-tint); color: #b06000; }
+  .status-accepted { background: var(--green-tint); color: #1e8e3e; }
+  .status-declined { background: var(--red-tint); color: #c5221f; }
+  .requests-empty { font-size: 13px; color: var(--color-text-muted); }
+
+  /* --- Search / filter bar --- */
+  .search-filter-bar { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+  .directory-search-wrap { position: relative; flex: 1; min-width: 220px; }
+  .directory-search { width: 100%; padding: 10px 14px 10px 38px; font-family: inherit; font-size: 14px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); outline: none; }
+  .directory-search:focus { border-color: var(--blue); }
+  .directory-search-icon { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--color-text-muted); pointer-events: none; }
+  .filter-select { padding: 10px 12px; font-family: inherit; font-size: 14px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-white); color: var(--color-text-primary); outline: none; min-width: 190px; }
+  .filter-select:focus { border-color: var(--blue); }
+
+  .results-count { font-size: 12.5px; color: var(--color-text-muted); margin-bottom: 14px; }
+
+  /* --- Adviser directory grid (reused/extended from advisers.html) --- */
+  .adviser-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  @media (max-width: 900px) { .adviser-grid { grid-template-columns: 1fr; } }
+
+  .adviser-card { background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 22px; display: flex; flex-direction: column; }
+  .adviser-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+  .adviser-card-identity { display: flex; align-items: center; gap: 14px; min-width: 0; }
+  .adviser-avatar { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; flex-shrink: 0; }
+  .adviser-avatar.avatar-blue   { background: var(--blue);  color: var(--color-white); }
+  .adviser-avatar.avatar-green  { background: var(--green); color: var(--color-white); }
+  .adviser-avatar.avatar-red    { background: var(--red);   color: var(--color-white); }
+  .adviser-avatar.avatar-yellow { background: var(--yellow); color: var(--color-text-primary); }
+  .adviser-name { font-size: 15px; font-weight: 700; }
+  .adviser-role { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
+
+  .capacity-badge { padding: 4px 10px; border-radius: 20px; font-size: 11.5px; font-weight: 600; white-space: nowrap; flex-shrink: 0; }
+  .capacity-open { background: var(--green-tint); color: #1e8e3e; }
+  .capacity-near { background: var(--yellow-tint); color: #b06000; }
+  .capacity-full { background: var(--red-tint); color: #c5221f; }
+
+  .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+  .tag { padding: 3px 10px; border-radius: 20px; font-size: 11.5px; font-weight: 500; background: var(--blue-tint); color: #1967d2; white-space: nowrap; }
+
+  .adviser-actions { display: flex; gap: 10px; margin-top: auto; }
+  .adviser-actions .btn { flex: 1; }
+
+  .empty-state { text-align: center; font-size: 13px; color: var(--color-text-muted); padding: 40px 0; }
+
+  /* --- Modals (profile + request confirm) --- */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(32,33,36,0.5); display: flex; align-items: center; justify-content: center; padding: 24px; z-index: 500; }
+  .profile-modal { background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-md); width: 100%; max-width: 460px; max-height: 88vh; display: flex; flex-direction: column; overflow: hidden; }
+  .profile-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 20px; border-bottom: 1px solid var(--color-border); flex-shrink: 0; }
+  .profile-header-info { display: flex; align-items: center; gap: 12px; min-width: 0; }
+  .profile-avatar { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; flex-shrink: 0; }
+  .profile-name { font-size: 14.5px; font-weight: 700; }
+  .profile-role { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
+  .profile-close-btn { background: none; border: none; cursor: pointer; color: var(--color-text-secondary); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .profile-close-btn:hover { background: var(--color-offwhite); }
+  .profile-body { padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
+  .profile-section-label { font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; color: var(--color-text-muted); margin-bottom: 6px; }
+  .profile-text { font-size: 13.5px; color: var(--color-text-secondary); line-height: 1.6; }
+  .profile-footer { display: flex; justify-content: flex-end; gap: 10px; padding: 14px 20px; border-top: 1px solid var(--color-border); flex-shrink: 0; }
+
+  @media (max-width: 900px) {
+    .hamburger-btn { display: flex; }
+    .navbar-left { min-width: auto; }
+    .sidebar { transform: translateX(-100%); box-shadow: none; }
+    .sidebar.sidebar-open { transform: translateX(0); }
+    .main-content { margin-left: 0; }
+  }
+  @media (max-width: 640px) {
+    .navbar-search { display: none; }
+    .main-content { padding: 24px 16px 48px; }
+    .welcome-header { align-items: flex-start; }
+    .welcome-title { font-size: 20px; }
+  }
+
+</style>
+</head>
+<body>
+
+  <div class="bg-decoration" aria-hidden="true">
+    <div class="bg-shape shape-circle shape-1"></div>
+    <div class="bg-shape shape-square shape-2"></div>
+    <div class="bg-shape shape-circle shape-3"></div>
+    <div class="bg-shape shape-square shape-4"></div>
+    <div class="bg-shape shape-circle shape-5"></div>
+  </div>
+
+  <div class="dashboard-screen" id="dashboardScreen">
+
+    <!-- Top Navigation Bar -->
+    <header class="top-navbar">
+      <div class="navbar-left">
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle menu" aria-expanded="false">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+        <img src="../LOGO/logo.png" alt="CapstoneHub logo" class="brand-mark">
+        <span class="brand-name">CapstoneHub</span>
+      </div>
+
+      <div class="navbar-search">
+        <div class="search-input-wrap">
+          <span class="search-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          </span>
+          <input class="search-input" type="text" placeholder="Search...">
+        </div>
+      </div>
+
+      <div class="navbar-right">
+        <button class="icon-btn" aria-label="Notifications" id="notifBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+          <span class="notif-dot"></span>
+        </button>
+        <div class="user-avatar" id="userAvatar" title="Juan Dela Cruz">JD</div>
+      </div>
+    </header>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <ul class="sidebar-menu">
+        <li><a class="sidebar-link" href="index.html">
+          <span class="sidebar-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg></span>
+          Dashboard
+        </a></li>
+        <li><a class="sidebar-link" href="files.html">
+          <span class="sidebar-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg></span>
+          Files
+        </a></li>
+        <li><a class="sidebar-link active" href="find-adviser.html">
+          <span class="sidebar-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+          Find Adviser
+        </a></li>
+        <li><a class="sidebar-link" href="advisers.html">
+          <span class="sidebar-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span>
+          Advisers
+        </a></li>
+        <li><a class="sidebar-link" href="instructor-contact.html">
+          <span class="sidebar-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg></span>
+          Instructor Contact
+        </a></li>
+        <li><a class="sidebar-link" href="messages.html">
+          <span class="sidebar-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></span>
+          Messages
+        </a></li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <a class="sidebar-link" href="index.html">
+          <span class="sidebar-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg></span>
+          Log Out
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <p class="breadcrumbs"><a href="index.html">Home</a> &gt; <span class="current">Find an Adviser</span></p>
+
+      <div class="welcome-header">
+        <div>
+          <h1 class="welcome-title">Find an Adviser</h1>
+          <p class="welcome-sub">Search available advisers and request one to supervise your capstone group</p>
+        </div>
+      </div>
+
+      <!-- My Requests -->
+      <section class="panel">
+        <h2 class="panel-title">My Requests</h2>
+        <div id="myRequestsList">
+          <p class="requests-empty" id="requestsEmpty">You haven't requested an adviser yet. Browse the directory below and send a request.</p>
+        </div>
+      </section>
+
+      <!-- Search & Filter -->
+      <div class="search-filter-bar">
+        <div class="directory-search-wrap">
+          <span class="directory-search-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          </span>
+          <input class="directory-search" type="text" id="directorySearch" placeholder="Search by name or expertise...">
+        </div>
+        <select class="filter-select" id="expertiseFilter">
+          <option value="all">All Expertise Areas</option>
+        </select>
+        <select class="filter-select" id="availabilityFilter">
+          <option value="all">Any Availability</option>
+          <option value="open">Open Slots</option>
+          <option value="near">Nearly Full</option>
+        </select>
+      </div>
+
+      <p class="results-count" id="resultsCount">5 advisers</p>
+
+      <div class="adviser-grid" id="adviserGrid"></div>
+      <p class="empty-state hidden" id="directoryEmpty">No advisers match your search.</p>
+
+    </main>
+  </div>
+
+  <!-- Adviser Profile Modal -->
+  <div class="modal-overlay hidden" id="profileOverlay">
+    <div class="profile-modal">
+      <div class="profile-header">
+        <div class="profile-header-info">
+          <div class="profile-avatar" id="profileAvatar">RV</div>
+          <div>
+            <div class="profile-name" id="profileName">Dr. Ramon Villanueva</div>
+            <div class="profile-role" id="profileRole">Dept. of Computer Engineering</div>
+          </div>
+        </div>
+        <button class="profile-close-btn" id="profileCloseBtn" aria-label="Close">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="profile-body">
+        <div>
+          <p class="profile-section-label">Expertise</p>
+          <div class="tag-row" id="profileTags"></div>
+        </div>
+        <div>
+          <p class="profile-section-label">Current Load</p>
+          <span class="capacity-badge" id="profileCapacity">9/10 slots</span>
+        </div>
+        <div>
+          <p class="profile-section-label">Research Interests</p>
+          <p class="profile-text" id="profileInterests"></p>
+        </div>
+        <div>
+          <p class="profile-section-label">Consultation Schedule</p>
+          <p class="profile-text" id="profileSchedule"></p>
+        </div>
+      </div>
+      <div class="profile-footer">
+        <button type="button" class="btn btn-outline" id="profileCloseBtn2">Close</button>
+        <button type="button" class="btn btn-primary" id="profileRequestBtn">Request Adviser</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+
+
+      const sidebar = document.getElementById('sidebar');
+      const sidebarOverlay = document.getElementById('sidebarOverlay');
+      const hamburgerBtn = document.getElementById('hamburgerBtn');
+      function openSidebarDrawer() { sidebar.classList.add('sidebar-open'); sidebarOverlay.classList.add('visible'); hamburgerBtn.setAttribute('aria-expanded', 'true'); }
+      function closeSidebarDrawer() { sidebar.classList.remove('sidebar-open'); sidebarOverlay.classList.remove('visible'); hamburgerBtn.setAttribute('aria-expanded', 'false'); }
+      hamburgerBtn.addEventListener('click', function () { if (sidebar.classList.contains('sidebar-open')) closeSidebarDrawer(); else openSidebarDrawer(); });
+      sidebarOverlay.addEventListener('click', closeSidebarDrawer);
+      window.addEventListener('resize', function () { if (window.innerWidth > 900) closeSidebarDrawer(); });
+      document.querySelectorAll('.sidebar-link').forEach(function (link) { link.addEventListener('click', closeSidebarDrawer); });
+
+      const notifBtn = document.getElementById('notifBtn');
+      notifBtn.addEventListener('click', function () { const dot = notifBtn.querySelector('.notif-dot'); if (dot) dot.remove(); });
+
+      /* --------------------------------------------------------
+         ADVISER DATA
+         In production this comes from GET /api/advisers (active only,
+         with a derived `current_load` = COUNT(accepted requests)).
+      -------------------------------------------------------- */
+      const MAX_CAPACITY = 10;
+
+      const advisers = [
+        {
+          id: 'adv-villanueva',
+          name: 'Dr. Ramon Villanueva',
+          dept: 'Dept. of Computer Engineering',
+          avatar: 'RV', color: 'blue',
+          expertise: ['IoT', 'Embedded Systems', 'Robotics'],
+          load: 9,
+          interests: 'Low-power sensor networks, embedded firmware design, and applied robotics for agriculture and waste management.',
+          schedule: 'Mon & Wed, 1:00–3:00 PM'
+        },
+        {
+          id: 'adv-santos',
+          name: 'Dr. Teresa Santos',
+          dept: 'Dept. of Information Technology',
+          avatar: 'TS', color: 'green',
+          expertise: ['Mobile Development', 'Software Engineering'],
+          load: 10,
+          interests: 'Cross-platform mobile architecture, usability testing, and agile team practices for student capstone teams.',
+          schedule: 'Tue & Thu, 9:00–11:00 AM'
+        },
+        {
+          id: 'adv-reyes',
+          name: 'Dr. Imelda Reyes',
+          dept: 'Dept. of Computer Science',
+          avatar: 'IR', color: 'red',
+          expertise: ['Artificial Intelligence', 'Data Science'],
+          load: 6,
+          interests: 'Applied machine learning, predictive analytics, and dataset design for real-world classification problems.',
+          schedule: 'Wed & Fri, 2:00–4:00 PM'
+        },
+        {
+          id: 'adv-ocampo',
+          name: 'Dr. Patricia Ocampo',
+          dept: 'Dept. of Information Technology',
+          avatar: 'PO', color: 'yellow',
+          expertise: ['Cybersecurity', 'Networks'],
+          load: 3,
+          interests: 'Network intrusion detection, secure authentication design, and vulnerability assessment for web systems.',
+          schedule: 'Mon, Wed & Fri, 10:00–11:30 AM'
+        },
+        {
+          id: 'adv-tan',
+          name: 'Engr. Leonardo Tan',
+          dept: 'Dept. of Computer Engineering',
+          avatar: 'LT', color: 'blue',
+          expertise: ['Cloud Computing', 'Networking'],
+          load: 5,
+          interests: 'Cloud infrastructure for student-scale deployments, containerization, and campus network optimization.',
+          schedule: 'By appointment'
+        }
+      ];
+
+
+      let myRequest = null; /* { adviserId, status: 'pending'|'accepted'|'declined', requestedAt } */
+
+      function capacityInfo(load) {
+        if (load >= MAX_CAPACITY) return { label: load + '/' + MAX_CAPACITY + ' \u2014 Capacity Full', cls: 'capacity-full', full: true };
+        if (load >= MAX_CAPACITY - 2) return { label: load + '/' + MAX_CAPACITY + ' slots', cls: 'capacity-near', full: false };
+        return { label: load + '/' + MAX_CAPACITY + ' slots', cls: 'capacity-open', full: false };
+      }
+
+      function findAdviser(id) { return advisers.find(function (a) { return a.id === id; }); }
+
+
+      const expertiseFilter = document.getElementById('expertiseFilter');
+      const allTags = Array.from(new Set(advisers.flatMap(function (a) { return a.expertise; }))).sort();
+      allTags.forEach(function (tag) {
+        const opt = document.createElement('option');
+        opt.value = tag;
+        opt.textContent = tag;
+        expertiseFilter.appendChild(opt);
+      });
+
+
+      const adviserGrid = document.getElementById('adviserGrid');
+      const directoryEmpty = document.getElementById('directoryEmpty');
+      const resultsCount = document.getElementById('resultsCount');
+      const directorySearch = document.getElementById('directorySearch');
+      const availabilityFilter = document.getElementById('availabilityFilter');
+
+      function requestButtonState(adviser) {
+        const cap = capacityInfo(adviser.load);
+        if (cap.full) return { label: 'Capacity Full (' + adviser.load + '/' + MAX_CAPACITY + ')', disabled: true };
+        if (myRequest && myRequest.adviserId === adviser.id && myRequest.status === 'pending') return { label: 'Request Pending', disabled: true };
+        if (myRequest && myRequest.adviserId === adviser.id && myRequest.status === 'accepted') return { label: 'Adviser Assigned', disabled: true };
+        if (myRequest && myRequest.status === 'pending') return { label: 'Request Adviser', disabled: true };
+        return { label: 'Request Adviser', disabled: false };
+      }
+
+      function renderDirectory() {
+        const query = directorySearch.value.trim().toLowerCase();
+        const expertise = expertiseFilter.value;
+        const availability = availabilityFilter.value;
+
+        const filtered = advisers.filter(function (a) {
+          const matchesQuery = !query ||
+            a.name.toLowerCase().indexOf(query) !== -1 ||
+            a.expertise.some(function (t) { return t.toLowerCase().indexOf(query) !== -1; });
+          const matchesExpertise = expertise === 'all' || a.expertise.indexOf(expertise) !== -1;
+          const cap = capacityInfo(a.load);
+          const matchesAvailability =
+            availability === 'all' ||
+            (availability === 'open' && cap.cls === 'capacity-open') ||
+            (availability === 'near' && cap.cls === 'capacity-near');
+          return matchesQuery && matchesExpertise && matchesAvailability;
+        });
+
+        resultsCount.textContent = filtered.length + (filtered.length === 1 ? ' adviser' : ' advisers');
+        directoryEmpty.classList.toggle('hidden', filtered.length !== 0);
+        adviserGrid.innerHTML = '';
+
+        filtered.forEach(function (a) {
+          const cap = capacityInfo(a.load);
+          const btnState = requestButtonState(a);
+
+          const card = document.createElement('div');
+          card.className = 'adviser-card';
+          card.innerHTML =
+            '<div class="adviser-card-top">' +
+              '<div class="adviser-card-identity">' +
+                '<div class="adviser-avatar avatar-' + a.color + '">' + a.avatar + '</div>' +
+                '<div><div class="adviser-name"></div><div class="adviser-role"></div></div>' +
+              '</div>' +
+              '<span class="capacity-badge ' + cap.cls + '"></span>' +
+            '</div>' +
+            '<div class="tag-row"></div>' +
+            '<div class="adviser-actions">' +
+              '<button type="button" class="btn btn-outline" data-action="profile">Review Profile</button>' +
+              '<button type="button" class="btn btn-primary" data-action="request"' + (btnState.disabled ? ' disabled' : '') + '></button>' +
+            '</div>';
+
+          card.querySelector('.adviser-name').textContent = a.name;
+          card.querySelector('.adviser-role').textContent = a.dept;
+          card.querySelector('.capacity-badge').textContent = cap.label;
+          card.querySelector('[data-action="request"]').textContent = btnState.label;
+
+          const tagRow = card.querySelector('.tag-row');
+          a.expertise.forEach(function (t) {
+            const tag = document.createElement('span');
+            tag.className = 'tag';
+            tag.textContent = t;
+            tagRow.appendChild(tag);
+          });
+
+          card.querySelector('[data-action="profile"]').addEventListener('click', function () { openProfile(a.id); });
+          const reqBtn = card.querySelector('[data-action="request"]');
+          reqBtn.addEventListener('click', function () { if (!reqBtn.disabled) submitRequest(a.id); });
+
+          adviserGrid.appendChild(card);
+        });
+      }
+
+      directorySearch.addEventListener('input', renderDirectory);
+      expertiseFilter.addEventListener('change', renderDirectory);
+      availabilityFilter.addEventListener('change', renderDirectory);
+
+
+      const profileOverlay = document.getElementById('profileOverlay');
+      const profileAvatar = document.getElementById('profileAvatar');
+      const profileName = document.getElementById('profileName');
+      const profileRole = document.getElementById('profileRole');
+      const profileTags = document.getElementById('profileTags');
+      const profileCapacity = document.getElementById('profileCapacity');
+      const profileInterests = document.getElementById('profileInterests');
+      const profileSchedule = document.getElementById('profileSchedule');
+      const profileRequestBtn = document.getElementById('profileRequestBtn');
+
+      let profileAdviserId = null;
+
+      function openProfile(id) {
+        const a = findAdviser(id);
+        if (!a) return;
+        profileAdviserId = id;
+
+        profileAvatar.textContent = a.avatar;
+        profileAvatar.className = 'profile-avatar avatar-' + a.color;
+        profileName.textContent = a.name;
+        profileRole.textContent = a.dept;
+
+        profileTags.innerHTML = '';
+        a.expertise.forEach(function (t) {
+          const tag = document.createElement('span');
+          tag.className = 'tag';
+          tag.textContent = t;
+          profileTags.appendChild(tag);
+        });
+
+        const cap = capacityInfo(a.load);
+        profileCapacity.textContent = cap.label;
+        profileCapacity.className = 'capacity-badge ' + cap.cls;
+        profileInterests.textContent = a.interests;
+        profileSchedule.textContent = a.schedule;
+
+        const btnState = requestButtonState(a);
+        profileRequestBtn.textContent = btnState.label;
+        profileRequestBtn.disabled = btnState.disabled;
+
+        profileOverlay.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeProfile() {
+        profileOverlay.classList.add('hidden');
+        document.body.style.overflow = '';
+        profileAdviserId = null;
+      }
+
+      document.getElementById('profileCloseBtn').addEventListener('click', closeProfile);
+      document.getElementById('profileCloseBtn2').addEventListener('click', closeProfile);
+      profileOverlay.addEventListener('click', function (e) { if (e.target === profileOverlay) closeProfile(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !profileOverlay.classList.contains('hidden')) closeProfile(); });
+
+      profileRequestBtn.addEventListener('click', function () {
+        if (profileRequestBtn.disabled || !profileAdviserId) return;
+        submitRequest(profileAdviserId);
+        closeProfile();
+      });
+
+
+      const myRequestsList = document.getElementById('myRequestsList');
+
+      function todayLabel() {
+        return new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      }
+
+      function renderMyRequests() {
+        if (!myRequest) {
+          myRequestsList.innerHTML = '<p class="requests-empty">You haven\u2019t requested an adviser yet. Browse the directory below and send a request.</p>';
+          return;
+        }
+        const a = findAdviser(myRequest.adviserId);
+        const statusClass = myRequest.status === 'pending' ? 'status-pending' : myRequest.status === 'accepted' ? 'status-accepted' : 'status-declined';
+        const statusLabel = myRequest.status.charAt(0).toUpperCase() + myRequest.status.slice(1);
+
+        myRequestsList.innerHTML =
+          '<div class="request-row">' +
+            '<div class="request-info">' +
+              '<div class="adviser-avatar avatar-' + a.color + '" style="width:36px;height:36px;font-size:12.5px;">' + a.avatar + '</div>' +
+              '<div><div class="request-name"></div><div class="request-meta"></div></div>' +
+            '</div>' +
+            '<div style="display:flex; align-items:center; gap:10px;">' +
+              '<span class="request-status-pill ' + statusClass + '"></span>' +
+              (myRequest.status === 'pending' ? '<button type="button" class="btn btn-outline" id="cancelRequestBtn">Cancel</button>' : '') +
+            '</div>' +
+          '</div>';
+
+        myRequestsList.querySelector('.request-name').textContent = a.name;
+        myRequestsList.querySelector('.request-meta').textContent = 'Requested ' + myRequest.requestedAt;
+        myRequestsList.querySelector('.request-status-pill').textContent = statusLabel;
+
+        const cancelBtn = document.getElementById('cancelRequestBtn');
+        if (cancelBtn) cancelBtn.addEventListener('click', cancelRequest);
+      }
+
+      function submitRequest(adviserId) {
+        const a = findAdviser(adviserId);
+        if (!a) return;
+        const cap = capacityInfo(a.load);
+        if (cap.full) return; /* guarded again here in case state is stale */
+        if (myRequest && myRequest.status === 'pending') return; /* one active request at a time */
+
+        myRequest = { adviserId: adviserId, status: 'pending', requestedAt: todayLabel() };
+        renderMyRequests();
+        renderDirectory();
+      }
+
+      function cancelRequest() {
+        /* In production: PATCH /api/adviser-requests/:id { status: 'cancelled' } */
+        myRequest = null;
+        renderMyRequests();
+        renderDirectory();
+      }
+
+
+      renderMyRequests();
+      renderDirectory();
+
+    })();
+  </script>
+
+</body>
+</html>

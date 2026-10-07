@@ -1,0 +1,2041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advisers | CapstoneHub</title>
+<link rel="icon" type="image/png" href="../LOGO/logo0.1.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+
+ 
+  :root {
+    --color-white: #ffffff;
+    --color-offwhite: #f8f9fa;
+    --color-border: #e0e0e0;
+    --color-text-primary: #202124;
+    --color-text-secondary: #5f6368;
+    --color-text-muted: #80868b;
+
+    --blue: #4285F4;
+    --red: #EA4335;
+    --yellow: #FBBC05;
+    --green: #34A853;
+
+    --blue-tint: #e8f0fe;
+    --red-tint: #fce8e6;
+    --yellow-tint: #fef7e0;
+    --green-tint: #e6f4ea;
+
+    --navbar-height: 64px;
+    --sidebar-width: 240px;
+    --radius-sm: 4px;
+    --radius-md: 8px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Roboto', system-ui, -apple-system, sans-serif;
+    color: var(--color-text-primary);
+    background-color: var(--color-white);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  .hidden { display: none !important; }
+
+ 
+  .bg-decoration {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .bg-shape {
+    position: absolute;
+    opacity: 0.05;
+  }
+
+  .shape-circle { border-radius: 50%; }
+  .shape-square { border-radius: var(--radius-sm); }
+
+  .shape-1 { width: 220px; height: 220px; background: var(--blue); top: 8%; left: 6%; animation: drift-a 34s ease-in-out infinite; }
+  .shape-2 { width: 160px; height: 160px; background: var(--red); top: 60%; left: 82%; animation: drift-b 28s ease-in-out infinite; }
+  .shape-3 { width: 130px; height: 130px; background: var(--yellow); top: 78%; left: 12%; animation: drift-c 40s ease-in-out infinite; }
+  .shape-4 { width: 190px; height: 190px; background: var(--green); top: 20%; left: 88%; animation: drift-a 32s ease-in-out infinite reverse; }
+  .shape-5 { width: 100px; height: 100px; background: var(--blue); top: 40%; left: 46%; animation: drift-b 45s linear infinite; }
+
+  @keyframes drift-a {
+    0%   { transform: translate(0, 0) rotate(0deg); }
+    50%  { transform: translate(30px, 40px) rotate(15deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+  }
+  @keyframes drift-b {
+    0%   { transform: translate(0, 0) rotate(0deg); }
+    50%  { transform: translate(-35px, 25px) rotate(-12deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+  }
+  @keyframes drift-c {
+    0%   { transform: translate(0, 0) rotate(0deg); }
+    50%  { transform: translate(20px, -30px) rotate(10deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bg-shape { animation: none !important; }
+  }
+
+  
+  .login-screen {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .login-card {
+    width: 100%;
+    max-width: 380px;
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 40px 36px;
+  }
+
+  .login-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+
+  .brand-mark {
+    width: 25px;
+    height: 25px;
+    object-fit: contain;
+  }
+
+  .brand-name {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+  }
+
+  .login-subtitle {
+    text-align: center;
+    color: var(--color-text-secondary);
+    font-size: 13px;
+    margin-bottom: 28px;
+  }
+
+  .form-group { margin-bottom: 18px; }
+
+  .form-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    margin-bottom: 6px;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-white);
+    outline: none;
+    transition: border-color 0.15s ease;
+  }
+
+  .form-input:focus {
+    border-color: var(--blue);
+  }
+
+  .form-row-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+    font-size: 13px;
+  }
+
+  .form-check {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--color-text-secondary);
+  }
+
+  .form-link {
+    color: var(--blue);
+    text-decoration: none;
+  }
+  .form-link:hover { text-decoration: underline; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .btn-primary {
+    width: 100%;
+    padding: 11px 16px;
+    background: var(--blue);
+    color: var(--color-white);
+  }
+  .btn-primary:hover { background: #3367d6; }
+
+  .btn-outline {
+    background: var(--color-white);
+    color: var(--color-text-secondary);
+    border-color: var(--color-border);
+    padding: 7px 12px;
+    font-size: 13px;
+  }
+  .btn-outline:hover { background: var(--color-offwhite); border-color: #c0c0c0; }
+
+  .login-footnote {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 12.5px;
+    color: var(--color-text-muted);
+  }
+
+  
+  .dashboard-screen {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* --- Top Navigation Bar --- */
+  .top-navbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--navbar-height);
+    background: var(--color-white);
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    z-index: 100;
+  }
+
+  .navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 200px;
+  }
+
+  .hamburger-btn {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .hamburger-btn:hover { background: var(--color-offwhite); }
+
+  .navbar-search {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  .search-input-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 9px 14px 9px 38px;
+    font-family: inherit;
+    font-size: 14px;
+    background: var(--color-offwhite);
+    border: 1px solid transparent;
+    border-radius: 20px;
+    outline: none;
+    color: var(--color-text-primary);
+  }
+
+  .search-input:focus {
+    background: var(--color-white);
+    border-color: var(--color-border);
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-muted);
+    pointer-events: none;
+  }
+
+  .navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    min-width: 200px;
+    justify-content: flex-end;
+  }
+
+  .icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    position: relative;
+  }
+  .icon-btn:hover { background: var(--color-offwhite); }
+
+  .notif-dot {
+    position: absolute;
+    top: 7px;
+    right: 8px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--red);
+    border: 1.5px solid var(--color-white);
+  }
+
+  .user-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: var(--color-white);
+    font-size: 13px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  /* --- Sidebar --- */
+  .sidebar {
+    position: fixed;
+    top: var(--navbar-height);
+    left: 0;
+    bottom: 0;
+    width: var(--sidebar-width);
+    background: var(--color-offwhite);
+    border-right: 1px solid var(--color-border);
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 200;
+    overflow-y: auto;
+    transition: transform 0.25s ease;
+  }
+
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: var(--navbar-height);
+    left: 0; right: 0; bottom: 0;
+    background: rgba(32, 33, 36, 0.4);
+    z-index: 150;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+  .sidebar-overlay.visible {
+    display: block;
+    opacity: 1;
+  }
+
+  .sidebar-menu {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  .sidebar-link:hover {
+    background: #eef1f4;
+    color: var(--color-text-primary);
+  }
+
+  .sidebar-link.active {
+    background: var(--blue-tint);
+    color: var(--blue);
+  }
+
+  .sidebar-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sidebar-footer {
+    border-top: 1px solid var(--color-border);
+    padding-top: 12px;
+  }
+
+  /* --- Main Content --- */
+  .main-content {
+    margin-top: var(--navbar-height);
+    margin-left: var(--sidebar-width);
+    padding: 32px 36px 60px;
+    min-height: calc(100vh - var(--navbar-height));
+  }
+
+  .breadcrumbs {
+    font-size: 13px;
+    color: var(--color-text-muted);
+    margin-bottom: 6px;
+  }
+
+  .breadcrumbs .current { color: var(--color-text-secondary); }
+
+  .welcome-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .welcome-title {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+
+  .welcome-sub {
+    font-size: 13.5px;
+    color: var(--color-text-secondary);
+    margin-top: 4px;
+  }
+
+  /* --- Panels / Cards --- */
+  .panel {
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 22px 24px;
+    margin-bottom: 24px;
+  }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+
+  .panel-title {
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .panel-link {
+    font-size: 13px;
+    color: var(--blue);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .panel-link:hover { text-decoration: underline; }
+
+  /* --- Progress Bar Component --- */
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+  }
+
+  .progress-phase-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+  }
+
+  .progress-percent {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--green);
+  }
+
+  .progress-track {
+    width: 100%;
+    height: 10px;
+    background: var(--color-offwhite);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--green);
+    border-radius: 20px;
+    width: 75%;
+    transition: width 0.4s ease;
+  }
+
+  .progress-milestones {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--color-text-muted);
+  }
+
+  .progress-milestones .done { color: var(--green); font-weight: 500; }
+  .progress-milestones .current { color: var(--blue); font-weight: 500; }
+
+  /* --- Data Table --- */
+  .table-container { overflow-x: auto; }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+
+  .data-table thead th {
+    text-align: left;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: var(--color-text-muted);
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--color-border);
+    white-space: nowrap;
+  }
+
+  .data-table tbody td {
+    padding: 14px 12px;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-primary);
+    vertical-align: middle;
+  }
+
+  .data-table tbody tr:last-child td { border-bottom: none; }
+  .data-table tbody tr:hover { background: var(--color-offwhite); }
+
+  .file-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .file-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: var(--radius-sm);
+    background: var(--blue-tint);
+    color: var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .file-name { font-weight: 500; }
+  .file-sub { font-size: 12px; color: var(--color-text-muted); }
+
+  /* Status Badges */
+  .status-badge {
+    display: inline-block;
+    padding: 4px 11px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .status-approved { background: var(--green-tint); color: #1e8e3e; }
+  .status-revision { background: var(--red-tint); color: #c5221f; }
+  .status-pending  { background: var(--yellow-tint); color: #b06000; }
+
+  .action-buttons {
+    display: flex;
+    gap: 8px;
+  }
+
+  .action-btn {
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    width: 30px;
+    height: 30px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+  }
+  .action-btn:hover { background: var(--color-offwhite); border-color: #c0c0c0; }
+
+  /* --- Secondary grid: stats + deadline --- */
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+
+  .stat-card {
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 18px 20px;
+  }
+
+  .stat-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .stat-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .stat-value {
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  .stat-label {
+    font-size: 12.5px;
+    color: var(--color-text-secondary);
+    margin-top: 2px;
+  }
+
+
+
+  @media (max-width: 1024px) {
+    .info-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 900px) {
+    .hamburger-btn { display: flex; }
+    .navbar-left { min-width: auto; }
+
+    .sidebar { transform: translateX(-100%); box-shadow: none; }
+    .sidebar.sidebar-open { transform: translateX(0); }
+
+    .main-content { margin-left: 0; }
+  }
+
+  @media (max-width: 640px) {
+    .navbar-search { display: none; }
+    .main-content { padding: 24px 16px 48px; }
+
+    .welcome-header { align-items: flex-start; }
+    .welcome-title { font-size: 20px; }
+
+    .info-grid { grid-template-columns: 1fr; gap: 12px; }
+    .panel { padding: 18px; }
+  }
+
+  @media (max-width: 480px) {
+    .login-card { padding: 32px 24px; }
+
+    /* Recent Submissions: table -> stacked cards */
+    .data-table thead { display: none; }
+    .data-table, .data-table tbody, .data-table tr, .data-table td {
+      display: block;
+      width: 100%;
+    }
+    .data-table tr {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      margin-bottom: 12px;
+      padding: 4px 12px;
+    }
+    .data-table tr:last-child { margin-bottom: 0; }
+    .data-table td {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--color-border);
+      text-align: right;
+    }
+    .data-table td:last-child { border-bottom: none; }
+    .data-table td::before {
+      content: attr(data-label);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      text-align: left;
+      flex-shrink: 0;
+    }
+    .data-table td[data-label="Filename"] .file-cell { flex: 1; justify-content: flex-end; }
+    .data-table td[data-label="Filename"]::before { align-self: center; }
+  }
+
+
+
+  .adviser-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .adviser-card {
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .adviser-card-top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+
+  .adviser-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .adviser-avatar.avatar-blue   { background: var(--blue);  color: var(--color-white); }
+  .adviser-avatar.avatar-green  { background: var(--green); color: var(--color-white); }
+  .adviser-avatar.avatar-red    { background: var(--red);   color: var(--color-white); }
+  .adviser-avatar.avatar-yellow { background: var(--yellow); color: var(--color-text-primary); }
+
+  .adviser-name {
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .adviser-role {
+    font-size: 12px;
+    color: var(--blue);
+    font-weight: 500;
+    margin-top: 2px;
+  }
+
+  .adviser-detail-list {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin-bottom: 18px;
+  }
+
+  .adviser-detail {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 13px;
+    color: var(--color-text-secondary);
+  }
+
+  .adviser-detail svg {
+    flex-shrink: 0;
+    color: var(--color-text-muted);
+  }
+
+  .adviser-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: auto;
+  }
+
+  .adviser-actions .btn { flex: 1; }
+
+  .btn-solid-blue {
+    background: var(--blue);
+    color: var(--color-white);
+    padding: 9px 12px;
+    font-size: 13px;
+  }
+  .btn-solid-blue:hover { background: #3367d6; }
+
+  @media (max-width: 640px) {
+    .adviser-grid { grid-template-columns: 1fr; }
+  }
+
+
+
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(32, 33, 36, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    z-index: 500;
+  }
+
+  .schedule-modal {
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    width: 100%;
+    max-width: 440px;
+    max-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .schedule-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--color-border);
+    flex-shrink: 0;
+  }
+
+  .schedule-header-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .schedule-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .schedule-avatar.avatar-blue   { background: var(--blue);  color: var(--color-white); }
+  .schedule-avatar.avatar-green  { background: var(--green); color: var(--color-white); }
+  .schedule-avatar.avatar-red    { background: var(--red);   color: var(--color-white); }
+  .schedule-avatar.avatar-yellow { background: var(--yellow); color: var(--color-text-primary); }
+
+  .schedule-name {
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .schedule-role {
+    font-size: 12px;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .schedule-close-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .schedule-close-btn:hover { background: var(--color-offwhite); }
+
+  .schedule-body {
+    padding: 22px 20px;
+    overflow-y: auto;
+  }
+
+  .schedule-section-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 12px;
+  }
+
+  .schedule-week-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .schedule-day {
+    aspect-ratio: 1;
+    border-radius: var(--radius-sm);
+    background: var(--color-offwhite);
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--color-text-muted);
+  }
+
+  .schedule-day.available {
+    background: var(--green-tint);
+    border-color: var(--green);
+    color: #1e8e3e;
+    font-weight: 700;
+  }
+
+  .schedule-time-note {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    background: var(--color-offwhite);
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+  }
+  .schedule-time-note svg { flex-shrink: 0; color: var(--blue); }
+
+  .schedule-appointment-note {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    background: var(--yellow-tint);
+    padding: 12px;
+    border-radius: var(--radius-sm);
+    line-height: 1.5;
+  }
+
+  .schedule-footer {
+    display: flex;
+    gap: 10px;
+    padding: 14px 20px;
+    border-top: 1px solid var(--color-border);
+    flex-shrink: 0;
+  }
+  .schedule-footer .btn { flex: 1; text-align: center; }
+
+  /* --- My Adviser Summary Panel --- */
+  .my-adviser-panel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .my-adviser-empty {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: var(--color-text-secondary);
+    font-size: 13.5px;
+  }
+
+  .my-adviser-empty-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--blue-tint);
+    color: var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .my-adviser-info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .my-adviser-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .adviser-status-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11.5px;
+    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 20px;
+    margin-top: 4px;
+  }
+
+  .tag-assigned { background: var(--green-tint); color: #1e8e3e; }
+
+  /* --- Search & Filter Bar --- */
+  .adviser-toolbar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .adviser-search-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 220px;
+  }
+
+  .adviser-search-input {
+    width: 100%;
+    padding: 10px 14px 10px 38px;
+    font-family: inherit;
+    font-size: 14px;
+    background: var(--color-offwhite);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    outline: none;
+    color: var(--color-text-primary);
+  }
+  .adviser-search-input:focus { background: var(--color-white); border-color: var(--blue); }
+
+  .adviser-search-icon {
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-muted);
+    pointer-events: none;
+  }
+
+  .adviser-filter-select {
+    padding: 10px 14px;
+    font-family: inherit;
+    font-size: 13.5px;
+    background: var(--color-offwhite);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-primary);
+    outline: none;
+    min-width: 190px;
+    cursor: pointer;
+  }
+  .adviser-filter-select:focus { border-color: var(--blue); }
+
+  .adviser-empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--color-text-muted);
+    font-size: 13.5px;
+  }
+
+  /* --- Capacity Indicator --- */
+  .capacity-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .capacity-label {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+  }
+
+  .capacity-count {
+    font-size: 12px;
+    font-weight: 700;
+    padding: 2px 9px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  .capacity-open   { background: var(--green-tint); color: #1e8e3e; }
+  .capacity-nearly { background: var(--yellow-tint); color: #b06000; }
+  .capacity-full   { background: var(--red-tint); color: #c5221f; }
+
+  .capacity-track {
+    width: 100%;
+    height: 6px;
+    background: var(--color-offwhite);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  .capacity-fill {
+    height: 100%;
+    border-radius: 20px;
+    transition: width 0.3s ease;
+  }
+
+  .capacity-fill.capacity-open   { background: var(--green); }
+  .capacity-fill.capacity-nearly { background: var(--yellow); }
+  .capacity-fill.capacity-full   { background: var(--red); }
+
+  .specialization-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--blue);
+    background: var(--blue-tint);
+    padding: 3px 9px;
+    border-radius: 20px;
+    margin-top: 3px;
+  }
+
+  /* --- Request / Disabled Button States --- */
+  .btn-request {
+    background: var(--blue);
+    color: var(--color-white);
+    padding: 9px 12px;
+    font-size: 13px;
+  }
+  .btn-request:hover { background: #3367d6; }
+
+  .btn-disabled,
+  .btn:disabled {
+    background: var(--color-offwhite);
+    color: var(--color-text-muted);
+    border-color: var(--color-border);
+    cursor: not-allowed;
+    padding: 9px 12px;
+    font-size: 13px;
+  }
+  .btn-disabled:hover, .btn:disabled:hover { background: var(--color-offwhite); }
+
+  .btn-pending {
+    background: var(--yellow-tint);
+    color: #b06000;
+    border-color: transparent;
+    cursor: not-allowed;
+    padding: 9px 12px;
+    font-size: 13px;
+  }
+
+  .btn-chat {
+    background: var(--green);
+    color: var(--color-white);
+    padding: 9px 12px;
+    font-size: 13px;
+  }
+  .btn-chat:hover { background: #2c9247; }
+
+  .spinner {
+    width: 11px;
+    height: 11px;
+    border: 2px solid rgba(176, 96, 0, 0.3);
+    border-top-color: #b06000;
+    border-radius: 50%;
+    display: inline-block;
+    animation: spin 0.7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* --- Confirm Request Modal --- */
+  .confirm-modal {
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    width: 100%;
+    max-width: 400px;
+    padding: 26px 24px;
+  }
+
+  .confirm-modal-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .confirm-modal-body {
+    font-size: 13.5px;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+    margin-bottom: 22px;
+  }
+
+  .confirm-modal-body strong { color: var(--color-text-primary); }
+
+  .confirm-modal-actions {
+    display: flex;
+    gap: 10px;
+  }
+  .confirm-modal-actions .btn { flex: 1; }
+
+  /* --- Toast --- */
+  .toast-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 900;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .toast {
+    background: var(--color-text-primary);
+    color: var(--color-white);
+    padding: 12px 18px;
+    border-radius: var(--radius-sm);
+    font-size: 13.5px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+    max-width: 320px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: toast-in 0.25s ease;
+  }
+  .toast.toast-success { background: #1e8e3e; }
+
+  @keyframes toast-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* --- Chat Modal --- */
+  .chat-modal {
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    width: 100%;
+    max-width: 440px;
+    max-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 320px;
+    background: var(--color-offwhite);
+  }
+
+  .chat-system-note {
+    text-align: center;
+    font-size: 12px;
+    color: var(--color-text-muted);
+    margin: 4px 0 8px;
+  }
+
+  .chat-bubble-row { display: flex; }
+  .chat-bubble-row.from-me { justify-content: flex-end; }
+
+  .chat-bubble {
+    max-width: 78%;
+    padding: 9px 13px;
+    border-radius: 14px;
+    font-size: 13.5px;
+    line-height: 1.4;
+  }
+
+  .chat-bubble-row.from-them .chat-bubble {
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-bottom-left-radius: 4px;
+  }
+
+  .chat-bubble-row.from-me .chat-bubble {
+    background: var(--blue);
+    color: var(--color-white);
+    border-bottom-right-radius: 4px;
+  }
+
+  .chat-input-row {
+    display: flex;
+    gap: 8px;
+    padding: 14px 16px;
+    border-top: 1px solid var(--color-border);
+    flex-shrink: 0;
+  }
+
+  .chat-input {
+    flex: 1;
+    padding: 9px 12px;
+    font-family: inherit;
+    font-size: 13.5px;
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    outline: none;
+  }
+  .chat-input:focus { border-color: var(--blue); }
+
+  .chat-send-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: var(--color-white);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .chat-send-btn:hover { background: #3367d6; }
+
+  @media (max-width: 480px) {
+    .adviser-toolbar { flex-direction: column; }
+    .adviser-filter-select { min-width: 0; }
+    .my-adviser-panel { flex-direction: column; align-items: stretch; }
+    .my-adviser-actions { width: 100%; }
+    .my-adviser-actions .btn { flex: 1; }
+  }
+
+</style>
+
+</head>
+<body>
+
+  <div class="bg-decoration" aria-hidden="true">
+    <div class="bg-shape shape-circle shape-1"></div>
+    <div class="bg-shape shape-square shape-2"></div>
+    <div class="bg-shape shape-circle shape-3"></div>
+    <div class="bg-shape shape-square shape-4"></div>
+    <div class="bg-shape shape-circle shape-5"></div>
+  </div>
+
+  <div class="dashboard-screen" id="dashboardScreen">
+
+    <!-- Top Navigation Bar -->
+    <header class="top-navbar">
+      <div class="navbar-left">
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle menu" aria-expanded="false">
+          <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+        <img src="../LOGO/logo0.1.png" alt="CapstoneHub logo" class="brand-mark">
+        <span class="brand-name">CapstoneHub</span>
+      </div>
+
+      <div class="navbar-search">
+        <div class="search-input-wrap">
+          <span class="search-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          </span>
+          <input class="search-input" type="text" placeholder="Search files, advisers, messages...">
+        </div>
+      </div>
+
+      <div class="navbar-right">
+        <button class="icon-btn" aria-label="Notifications" id="notifBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+          <span class="notif-dot"></span>
+        </button>
+        <div class="user-avatar" id="userAvatar" title="Juan Dela Cruz">JD</div>
+      </div>
+    </header>
+
+    <!-- Overlay shown behind the sidebar drawer on small screens -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <ul class="sidebar-menu">
+        <li><a class="sidebar-link" href="index.html">
+          <span class="sidebar-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg></span>
+          Dashboard
+        </a></li>
+        <li><a class="sidebar-link" href="files.html">
+          <span class="sidebar-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg></span>
+          My Files
+        </a></li>
+        <li><a class="sidebar-link active" href="advisers.html">
+          <span class="sidebar-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span>
+          Advisers
+        </a></li>
+        <li><a class="sidebar-link" href="instructor-contact.html">
+          <span class="sidebar-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg></span>
+          Instructor
+        </a></li>
+        <li><a class="sidebar-link" href="messages.html">
+          <span class="sidebar-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></span>
+          Messages
+        </a></li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <a class="sidebar-link" href="index.html">
+          <span class="sidebar-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg></span>
+          Log Out
+        </a>
+      </div>
+    </aside>
+
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <p class="breadcrumbs">Home &gt; <span class="current">Advisers</span></p>
+
+      <div class="welcome-header">
+        <div>
+          <h1 class="welcome-title">Advisers</h1>
+          <p class="welcome-sub">Find and request a capstone adviser for "Automated Waste Segregation System Using IoT"</p>
+        </div>
+      </div>
+
+      <!-- My Adviser Summary Panel -->
+      <div class="panel" id="myAdviserPanel">
+        <div class="panel-header">
+          <span class="panel-title">My Adviser</span>
+        </div>
+        <div class="my-adviser-panel" id="myAdviserContent">
+          <!-- Rendered dynamically by JS -->
+        </div>
+      </div>
+
+      <!-- Search & Filter -->
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Find a Capstone Adviser</span>
+        </div>
+        <div class="adviser-toolbar">
+          <div class="adviser-search-wrap">
+            <span class="adviser-search-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </span>
+            <input type="text" class="adviser-search-input" id="adviserSearchInput" placeholder="Search by name or specialization...">
+          </div>
+          <select class="adviser-filter-select" id="adviserFilterSelect">
+            <option value="all">All Specializations</option>
+          </select>
+        </div>
+
+        <div class="adviser-grid" id="adviserGrid">
+          <!-- Rendered dynamically by JS -->
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Request Confirmation Modal -->
+  <div class="modal-overlay hidden" id="confirmOverlay">
+    <div class="confirm-modal">
+      <div class="confirm-modal-title">Send Adviser Request?</div>
+      <div class="confirm-modal-body" id="confirmModalBody">
+        Send a request to <strong id="confirmAdviserName"></strong>? They'll be notified and can approve or decline your request.
+      </div>
+      <div class="confirm-modal-actions">
+        <button class="btn btn-outline" id="confirmCancelBtn">Cancel</button>
+        <button class="btn btn-request" id="confirmSendBtn">Send Request</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chat Modal -->
+  <div class="modal-overlay hidden" id="chatOverlay">
+    <div class="chat-modal">
+      <div class="schedule-header">
+        <div class="schedule-header-info">
+          <div class="schedule-avatar" id="chatAvatar">RV</div>
+          <div>
+            <div class="schedule-name" id="chatName">Adviser Name</div>
+            <div class="schedule-role" id="chatRole">Main Adviser</div>
+          </div>
+        </div>
+        <button class="schedule-close-btn" id="chatCloseBtn" aria-label="Close chat">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="chat-input-row">
+        <input type="text" class="chat-input" id="chatInput" placeholder="Type a message...">
+        <button class="chat-send-btn" id="chatSendBtn" aria-label="Send message">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notifications -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Adviser Schedule Modal -->
+  <div class="modal-overlay hidden" id="scheduleOverlay">
+    <div class="schedule-modal">
+      <div class="schedule-header">
+        <div class="schedule-header-info">
+          <div class="schedule-avatar" id="scheduleAvatar">RV</div>
+          <div>
+            <div class="schedule-name" id="scheduleName">Dr. Ramon Villanueva</div>
+            <div class="schedule-role" id="scheduleRole">Main Adviser &middot; Dept. of Computer Engineering</div>
+          </div>
+        </div>
+        <button class="schedule-close-btn" id="scheduleCloseBtn" aria-label="Close schedule">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="schedule-body">
+        <p class="schedule-section-label">Weekly Consultation Availability</p>
+
+        <div class="schedule-week-grid" id="scheduleWeekGrid">
+          <div class="schedule-day" data-day="mon">Mon</div>
+          <div class="schedule-day" data-day="tue">Tue</div>
+          <div class="schedule-day" data-day="wed">Wed</div>
+          <div class="schedule-day" data-day="thu">Thu</div>
+          <div class="schedule-day" data-day="fri">Fri</div>
+          <div class="schedule-day" data-day="sat">Sat</div>
+          <div class="schedule-day" data-day="sun">Sun</div>
+        </div>
+
+        <div class="schedule-time-note" id="scheduleTimeNote">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          <span id="scheduleTimeText">Mon &amp; Wed, 1:00–3:00 PM</span>
+        </div>
+
+        <p class="schedule-appointment-note hidden" id="scheduleAppointmentNote">
+          This adviser takes consultations by appointment only. Send a message to arrange a time.
+        </p>
+      </div>
+
+      <div class="schedule-footer">
+        <a href="messages.html" class="btn btn-solid-blue">Message Adviser</a>
+        <button class="btn btn-outline" id="scheduleCloseBtn2">Close</button>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    
+    (function () {
+
+      const sidebar = document.getElementById('sidebar');
+      const sidebarOverlay = document.getElementById('sidebarOverlay');
+      const hamburgerBtn = document.getElementById('hamburgerBtn');
+
+      function openSidebarDrawer() {
+        sidebar.classList.add('sidebar-open');
+        sidebarOverlay.classList.add('visible');
+        hamburgerBtn.setAttribute('aria-expanded', 'true');
+      }
+
+      function closeSidebarDrawer() {
+        sidebar.classList.remove('sidebar-open');
+        sidebarOverlay.classList.remove('visible');
+        hamburgerBtn.setAttribute('aria-expanded', 'false');
+      }
+
+      hamburgerBtn.addEventListener('click', function () {
+        if (sidebar.classList.contains('sidebar-open')) {
+          closeSidebarDrawer();
+        } else {
+          openSidebarDrawer();
+        }
+      });
+
+      sidebarOverlay.addEventListener('click', closeSidebarDrawer);
+
+      window.addEventListener('resize', function () {
+        if (window.innerWidth > 900) closeSidebarDrawer();
+      });
+
+      const notifBtn = document.getElementById('notifBtn');
+      notifBtn.addEventListener('click', function () {
+        const dot = notifBtn.querySelector('.notif-dot');
+        if (dot) dot.remove();
+      });
+
+
+      const scheduleOverlay = document.getElementById('scheduleOverlay');
+      const scheduleAvatar = document.getElementById('scheduleAvatar');
+      const scheduleName = document.getElementById('scheduleName');
+      const scheduleRole = document.getElementById('scheduleRole');
+      const scheduleWeekGrid = document.getElementById('scheduleWeekGrid');
+      const scheduleDayCells = document.querySelectorAll('.schedule-day');
+      const scheduleTimeNote = document.getElementById('scheduleTimeNote');
+      const scheduleTimeText = document.getElementById('scheduleTimeText');
+      const scheduleAppointmentNote = document.getElementById('scheduleAppointmentNote');
+      const scheduleCloseBtn = document.getElementById('scheduleCloseBtn');
+      const scheduleCloseBtn2 = document.getElementById('scheduleCloseBtn2');
+
+      function openScheduleModal(data) {
+        scheduleAvatar.textContent = data.avatar;
+        scheduleAvatar.className = 'schedule-avatar avatar-' + data.avatarColor;
+        scheduleName.textContent = data.name;
+        scheduleRole.textContent = data.role + ' \u00b7 ' + data.dept;
+
+        const availableDays = data.days ? data.days.split(',').filter(Boolean) : [];
+        scheduleDayCells.forEach(function (cell) {
+          cell.classList.toggle('available', availableDays.includes(cell.dataset.day));
+        });
+
+        const isAppointmentOnly = data.appointment === 'true';
+        scheduleWeekGrid.classList.toggle('hidden', isAppointmentOnly);
+        scheduleTimeNote.classList.toggle('hidden', isAppointmentOnly);
+        scheduleAppointmentNote.classList.toggle('hidden', !isAppointmentOnly);
+        scheduleTimeText.textContent = data.hours;
+
+        scheduleOverlay.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeScheduleModal() {
+        scheduleOverlay.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+
+      scheduleCloseBtn.addEventListener('click', closeScheduleModal);
+      scheduleCloseBtn2.addEventListener('click', closeScheduleModal);
+
+      scheduleOverlay.addEventListener('click', function (event) {
+        if (event.target === scheduleOverlay) closeScheduleModal();
+      });
+
+
+      const MAX_CAPACITY = 10;
+
+      const advisers = [
+        { id: 1, name: 'Dr. Ramon Villanueva', role: 'Main Adviser', dept: 'Dept. of Computer Engineering', specialization: 'IoT & Embedded Systems', avatar: 'RV', color: 'blue', email: 'r.villanueva@university.edu', capacity: 7, days: 'mon,wed', hours: 'Mon &amp; Wed, 1:00–3:00 PM' },
+        { id: 2, name: 'Engr. Cecilia Santos', role: 'Adviser', dept: 'Dept. of Information Technology', specialization: 'Software Engineering', avatar: 'CS', color: 'green', email: 'c.santos@university.edu', capacity: 9, days: 'tue,thu', hours: 'Tue &amp; Thu, 10:00–11:30 AM' },
+        { id: 3, name: 'Dr. Michael Reyes', role: 'Adviser', dept: 'Dept. of Computer Science', specialization: 'Data Science & Analytics', avatar: 'MR', color: 'red', email: 'm.reyes@university.edu', capacity: 10, days: 'fri', hours: 'Fri, 9:00 AM–12:00 NN' },
+        { id: 4, name: 'Prof. Angela Cruz', role: 'Adviser', dept: 'Dept. of Environmental Engineering', specialization: 'Environmental Systems', avatar: 'AC', color: 'yellow', email: 'a.cruz@university.edu', capacity: 4, appointment: true, hours: 'By appointment' },
+        { id: 5, name: 'Dr. Patricia Lim', role: 'Adviser', dept: 'Dept. of Computer Science', specialization: 'Artificial Intelligence & Machine Learning', avatar: 'PL', color: 'blue', email: 'p.lim@university.edu', capacity: 2, days: 'mon,thu', hours: 'Mon &amp; Thu, 3:00–5:00 PM' },
+        { id: 6, name: 'Engr. Joseph Tan', role: 'Adviser', dept: 'Dept. of Computer Engineering', specialization: 'Networking & Cybersecurity', avatar: 'JT', color: 'green', email: 'j.tan@university.edu', capacity: 6, days: 'wed,fri', hours: 'Wed &amp; Fri, 1:00–2:30 PM' }
+      ];
+
+
+      const requestState = {
+        status: 'none',
+        adviserId: null
+      };
+
+      const chatHistories = {}; 
+
+      // --- DOM refs ---
+      const myAdviserContent = document.getElementById('myAdviserContent');
+      const adviserGrid = document.getElementById('adviserGrid');
+      const adviserSearchInput = document.getElementById('adviserSearchInput');
+      const adviserFilterSelect = document.getElementById('adviserFilterSelect');
+      const toastContainer = document.getElementById('toastContainer');
+
+      const confirmOverlay = document.getElementById('confirmOverlay');
+      const confirmAdviserName = document.getElementById('confirmAdviserName');
+      const confirmCancelBtn = document.getElementById('confirmCancelBtn');
+      const confirmSendBtn = document.getElementById('confirmSendBtn');
+      let pendingConfirmAdviserId = null;
+
+      const chatOverlay = document.getElementById('chatOverlay');
+      const chatAvatar = document.getElementById('chatAvatar');
+      const chatName = document.getElementById('chatName');
+      const chatRole = document.getElementById('chatRole');
+      const chatMessages = document.getElementById('chatMessages');
+      const chatInput = document.getElementById('chatInput');
+      const chatSendBtn = document.getElementById('chatSendBtn');
+      const chatCloseBtn = document.getElementById('chatCloseBtn');
+      let activeChatAdviserId = null;
+
+      // --- Helpers ---
+      function getAdviser(id) {
+        return advisers.find(function (a) { return a.id === id; });
+      }
+
+      function capacityTier(capacity) {
+        if (capacity >= MAX_CAPACITY) return 'full';
+        if (capacity >= MAX_CAPACITY - 2) return 'nearly';
+        return 'open';
+      }
+
+      function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+      }
+
+      function showToast(message, variant) {
+        const toast = document.createElement('div');
+        toast.className = 'toast' + (variant === 'success' ? ' toast-success' : '');
+        toast.textContent = message;
+        toastContainer.appendChild(toast);
+        setTimeout(function () {
+          toast.style.opacity = '0';
+          toast.style.transition = 'opacity 0.3s ease';
+          setTimeout(function () { toast.remove(); }, 300);
+        }, 3800);
+      }
+
+      // --- Populate specialization filter options ---
+      function populateFilterOptions() {
+        const specializations = Array.from(new Set(advisers.map(function (a) { return a.specialization; }))).sort();
+        specializations.forEach(function (spec) {
+          const opt = document.createElement('option');
+          opt.value = spec;
+          opt.textContent = spec;
+          adviserFilterSelect.appendChild(opt);
+        });
+      }
+
+      // --- Render: My Adviser panel ---
+      function renderMyAdviserPanel() {
+        if (requestState.status === 'assigned' && requestState.adviserId) {
+          const a = getAdviser(requestState.adviserId);
+          myAdviserContent.innerHTML =
+            '<div class="my-adviser-info">' +
+              '<div class="adviser-avatar avatar-' + a.color + '">' + a.avatar + '</div>' +
+              '<div>' +
+                '<div class="adviser-name">' + escapeHtml(a.name) + '</div>' +
+                '<div class="adviser-role">' + escapeHtml(a.role) + '</div>' +
+                '<span class="adviser-status-tag tag-assigned">' +
+                  '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>' +
+                  'Assigned &amp; Chat Active' +
+                '</span>' +
+              '</div>' +
+            '</div>' +
+            '<div class="my-adviser-actions">' +
+              '<button class="btn btn-chat" data-action="open-chat" data-id="' + a.id + '">Open Chat</button>' +
+              '<a href="messages.html" class="btn btn-outline">Full Inbox</a>' +
+              '<button class="btn btn-outline schedule-btn" data-name="' + escapeHtml(a.name) + '" data-role="' + escapeHtml(a.role) + '" data-dept="' + escapeHtml(a.dept) + '" data-avatar="' + a.avatar + '" data-avatar-color="' + a.color + '" data-days="' + (a.days || '') + '" ' + (a.appointment ? 'data-appointment="true" ' : '') + 'data-hours="' + a.hours + '">View Schedule</button>' +
+            '</div>';
+        } else if (requestState.status === 'pending' && requestState.adviserId) {
+          const a = getAdviser(requestState.adviserId);
+          myAdviserContent.innerHTML =
+            '<div class="my-adviser-empty">' +
+              '<div class="my-adviser-empty-icon"><span class="spinner"></span></div>' +
+              '<div>Your request to <strong>' + escapeHtml(a.name) + '</strong> was sent and is waiting for approval. You\'ll be notified here once they respond.</div>' +
+            '</div>';
+        } else {
+          myAdviserContent.innerHTML =
+            '<div class="my-adviser-empty">' +
+              '<div class="my-adviser-empty-icon">' +
+                '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>' +
+              '</div>' +
+              '<div>You haven\'t selected a capstone adviser yet. Search or browse the list below and send a request to one with open capacity.</div>' +
+            '</div>';
+        }
+      }
+
+      // --- Render: adviser action button (depends on request state + capacity) ---
+      function renderActionButton(a) {
+        const tier = capacityTier(a.capacity);
+
+        if (requestState.status === 'assigned' && requestState.adviserId === a.id) {
+          return '<button class="btn btn-chat" data-action="open-chat" data-id="' + a.id + '">Open Chat</button>';
+        }
+        if (requestState.status === 'assigned' && requestState.adviserId !== a.id) {
+          return '<button class="btn btn-disabled" disabled>Adviser Already Assigned</button>';
+        }
+        if (requestState.status === 'pending' && requestState.adviserId === a.id) {
+          return '<button class="btn btn-pending" disabled><span class="spinner"></span>&nbsp;Request Pending</button>';
+        }
+        if (requestState.status === 'pending' && requestState.adviserId !== a.id) {
+          return '<button class="btn btn-disabled" disabled>Request Pending Elsewhere</button>';
+        }
+        if (tier === 'full') {
+          return '<button class="btn btn-disabled" disabled>Capacity Full</button>';
+        }
+        return '<button class="btn btn-request" data-action="request" data-id="' + a.id + '">Select / Request Adviser</button>';
+      }
+
+      // --- Render: adviser grid (with search + filter applied) ---
+      function renderAdviserGrid() {
+        const query = adviserSearchInput.value.trim().toLowerCase();
+        const filterValue = adviserFilterSelect.value;
+
+        const filtered = advisers.filter(function (a) {
+          const matchesQuery = !query ||
+            a.name.toLowerCase().includes(query) ||
+            a.specialization.toLowerCase().includes(query) ||
+            a.dept.toLowerCase().includes(query);
+          const matchesFilter = filterValue === 'all' || a.specialization === filterValue;
+          return matchesQuery && matchesFilter;
+        });
+
+        if (filtered.length === 0) {
+          adviserGrid.innerHTML = '<div class="adviser-empty-state">No advisers match your search. Try a different name or specialization.</div>';
+          return;
+        }
+
+        adviserGrid.innerHTML = filtered.map(function (a) {
+          const tier = capacityTier(a.capacity);
+          const pct = Math.min(100, Math.round((a.capacity / MAX_CAPACITY) * 100));
+          const scheduleLine = a.appointment ? 'By appointment' : a.hours.replace(/&amp;/g, '&');
+
+          return (
+            '<div class="adviser-card">' +
+              '<div class="adviser-card-top">' +
+                '<div class="adviser-avatar avatar-' + a.color + '">' + a.avatar + '</div>' +
+                '<div>' +
+                  '<div class="adviser-name">' + escapeHtml(a.name) + '</div>' +
+                  '<div class="adviser-role">' + escapeHtml(a.role) + '</div>' +
+                  '<span class="specialization-tag">' + escapeHtml(a.specialization) + '</span>' +
+                '</div>' +
+              '</div>' +
+
+              '<div class="capacity-row">' +
+                '<span class="capacity-label">Advising Load</span>' +
+                '<span class="capacity-count capacity-' + tier + '">' + a.capacity + '/' + MAX_CAPACITY + ' Groups</span>' +
+              '</div>' +
+              '<div class="capacity-track"><div class="capacity-fill capacity-' + tier + '" style="width:' + pct + '%"></div></div>' +
+
+              '<div class="adviser-detail-list">' +
+                '<div class="adviser-detail">' +
+                  '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>' +
+                  escapeHtml(a.dept) +
+                '</div>' +
+                '<div class="adviser-detail">' +
+                  '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>' +
+                  escapeHtml(scheduleLine) +
+                '</div>' +
+                '<div class="adviser-detail">' +
+                  '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><polyline points="22 6 12 13 2 6"></polyline></svg>' +
+                  escapeHtml(a.email) +
+                '</div>' +
+              '</div>' +
+
+              '<div class="adviser-actions">' +
+                renderActionButton(a) +
+                '<button class="btn btn-outline schedule-btn" data-name="' + escapeHtml(a.name) + '" data-role="' + escapeHtml(a.role) + '" data-dept="' + escapeHtml(a.dept) + '" data-avatar="' + a.avatar + '" data-avatar-color="' + a.color + '" data-days="' + (a.days || '') + '" ' + (a.appointment ? 'data-appointment="true" ' : '') + 'data-hours="' + a.hours + '">View Schedule</button>' +
+              '</div>' +
+            '</div>'
+          );
+        }).join('');
+      }
+
+      function renderAll() {
+        renderMyAdviserPanel();
+        renderAdviserGrid();
+      }
+
+      // --- Search & filter listeners ---
+      adviserSearchInput.addEventListener('input', renderAdviserGrid);
+      adviserFilterSelect.addEventListener('change', renderAdviserGrid);
+
+      // --- Request confirmation modal ---
+      function openConfirmModal(adviserId) {
+        const a = getAdviser(adviserId);
+        pendingConfirmAdviserId = adviserId;
+        confirmAdviserName.textContent = a.name;
+        confirmOverlay.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeConfirmModal() {
+        confirmOverlay.classList.add('hidden');
+        document.body.style.overflow = '';
+        pendingConfirmAdviserId = null;
+      }
+
+      confirmCancelBtn.addEventListener('click', closeConfirmModal);
+      confirmOverlay.addEventListener('click', function (event) {
+        if (event.target === confirmOverlay) closeConfirmModal();
+      });
+
+      confirmSendBtn.addEventListener('click', function () {
+        if (pendingConfirmAdviserId === null) return;
+        const adviserId = pendingConfirmAdviserId;
+        const a = getAdviser(adviserId);
+
+        requestState.status = 'pending';
+        requestState.adviserId = adviserId;
+        closeConfirmModal();
+        renderAll();
+        showToast('Request sent to ' + a.name + '. Waiting for approval\u2026');
+
+        // Simulate the adviser reviewing and approving the request.
+        setTimeout(function () {
+          // Guard: only approve if still pending for this adviser (not cancelled elsewhere).
+          if (requestState.status !== 'pending' || requestState.adviserId !== adviserId) return;
+
+          const adviser = getAdviser(adviserId);
+          if (adviser.capacity >= MAX_CAPACITY) {
+            // Capacity filled up while waiting (edge case) — decline.
+            requestState.status = 'none';
+            requestState.adviserId = null;
+            renderAll();
+            showToast(adviser.name + ' reached full capacity before approving. Please choose another adviser.');
+            return;
+          }
+
+          adviser.capacity += 1;
+          requestState.status = 'assigned';
+          renderAll();
+          showToast(adviser.name + ' accepted your request! Chat is now active.', 'success');
+          openChatModal(adviser.id);
+        }, 2200);
+      });
+
+      // --- Chat modal ---
+      function seedChatIfNeeded(adviserId) {
+        if (chatHistories[adviserId]) return;
+        const a = getAdviser(adviserId);
+        chatHistories[adviserId] = [
+          { from: 'them', text: 'Hi! I\u2019ve accepted your capstone advising request. Feel free to send me your proposal draft or any questions here.' }
+        ];
+      }
+
+      function renderChatMessages(adviserId) {
+        const a = getAdviser(adviserId);
+        const history = chatHistories[adviserId] || [];
+        chatMessages.innerHTML =
+          '<div class="chat-system-note">You are now connected with ' + escapeHtml(a.name) + '</div>' +
+          history.map(function (m) {
+            return '<div class="chat-bubble-row from-' + (m.from === 'me' ? 'me' : 'them') + '"><div class="chat-bubble">' + escapeHtml(m.text) + '</div></div>';
+          }).join('');
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+
+      function openChatModal(adviserId) {
+        const a = getAdviser(adviserId);
+        activeChatAdviserId = adviserId;
+        seedChatIfNeeded(adviserId);
+
+        chatAvatar.textContent = a.avatar;
+        chatAvatar.className = 'schedule-avatar avatar-' + a.color;
+        chatName.textContent = a.name;
+        chatRole.textContent = a.role + ' \u00b7 ' + a.dept;
+
+        renderChatMessages(adviserId);
+        chatOverlay.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        chatInput.focus();
+      }
+
+      function closeChatModal() {
+        chatOverlay.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+
+      chatCloseBtn.addEventListener('click', closeChatModal);
+      chatOverlay.addEventListener('click', function (event) {
+        if (event.target === chatOverlay) closeChatModal();
+      });
+
+      function sendChatMessage() {
+        const text = chatInput.value.trim();
+        if (!text || activeChatAdviserId === null) return;
+        chatHistories[activeChatAdviserId].push({ from: 'me', text: text });
+        chatInput.value = '';
+        renderChatMessages(activeChatAdviserId);
+
+        // Lightweight simulated reply so the chat feels alive in this demo.
+        setTimeout(function () {
+          if (activeChatAdviserId === null) return;
+          chatHistories[activeChatAdviserId].push({ from: 'them', text: 'Got it, thanks for the update. I\u2019ll take a look and get back to you.' });
+          if (!chatOverlay.classList.contains('hidden')) renderChatMessages(activeChatAdviserId);
+        }, 1400);
+      }
+
+      chatSendBtn.addEventListener('click', sendChatMessage);
+      chatInput.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') sendChatMessage();
+      });
+
+      // --- Delegated click handling for dynamically rendered buttons ---
+      document.addEventListener('click', function (event) {
+        const scheduleBtn = event.target.closest('.schedule-btn');
+        if (scheduleBtn) {
+          openScheduleModal(scheduleBtn.dataset);
+          return;
+        }
+
+        const requestBtn = event.target.closest('[data-action="request"]');
+        if (requestBtn) {
+          openConfirmModal(Number(requestBtn.dataset.id));
+          return;
+        }
+
+        const chatBtn = event.target.closest('[data-action="open-chat"]');
+        if (chatBtn) {
+          openChatModal(Number(chatBtn.dataset.id));
+          return;
+        }
+      });
+
+      document.addEventListener('keydown', function (event) {
+        if (event.key !== 'Escape') return;
+        if (!scheduleOverlay.classList.contains('hidden')) closeScheduleModal();
+        if (!confirmOverlay.classList.contains('hidden')) closeConfirmModal();
+        if (!chatOverlay.classList.contains('hidden')) closeChatModal();
+      });
+
+      // --- Init ---
+      populateFilterOptions();
+      renderAll();
+    })();
+  </script>
+
+</body>
+</html>
